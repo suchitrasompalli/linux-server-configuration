@@ -32,11 +32,12 @@ with mod_wsgi, PostgreSQL, and Git.
 2. Follow instructions in project to SSH into the server.
 
 ##### Update all currently installed packages.
-***
+
+```
 1. $ sudo apt-get update.
 2. $ sudo apt-get upgrade.
-3. Install finger, $ apt-get install finger.***
-
+3. Install finger, $ apt-get install finger.
+```
 
 Change the SSH port from 22 to 2200. Make sure to configure the Lightsail
 firewall to allow it.
@@ -50,11 +51,12 @@ firewall to allow it.
 
 Configure the Uncomplicated Firewall (UFW) to only allow incoming
 connections for SSH (port 2200), HTTP (port 80), and NTP (port 123).
+```
 1. $ sudo ufw allow 2200/tcp.
 2. $ sudo ufw allow 80/tcp.
 3. $ sudo ufw allow 123/udp.
 4. $ sudo ufw enable
-
+```
 ##### Give Grader access to the server
   1. Create user grader.
 
@@ -95,10 +97,10 @@ connections for SSH (port 2200), HTTP (port 80), and NTP (port 123).
      We must change the permissions of the file and its folder by running
      **$ sudo chmod 700 /home/grader/.ssh**
 
-     ** $ sudo chmod 644 /home/grader/.ssh/authorized_keys**
+     **$ sudo chmod 644 /home/grader/.ssh/authorized_keys**
 
    * Change the owner of the .ssh directory from root to grader by using the
-     command $ sudo chown -R grader:grader /home/grader/.ssh
+     command **$ sudo chown -R grader:grader /home/grader/.ssh**
 
    * The last thing we need to do for the SSH configuration is restart its
      service with **$ sudo  service ssh restart_**
@@ -249,5 +251,5 @@ Create tables and load data from catalog application.
 Run, database_setup.py and add_catalog_items.py
 
 Final step is, Restart your apache server **$ sudo service apache2 restart**
-Go to full url, example:
+Application should then be available on the IP
 http://ec2-18-220-198-31.us-east-2.compute.amazonaws.com
