@@ -42,7 +42,7 @@ with mod_wsgi, PostgreSQL, and Git.
 Change the SSH port from 22 to 2200. Make sure to configure the Lightsail
 firewall to allow it.
 1. On Amazon Lightsail, open the Networking tab for the instance.
-   Add custom port 2200 and 123
+   Add custom port 2200 and 123. Delete the port 22.
 2. Download your private key from Amazon Lightsail.
    It was called, LightsailDefaultPrivateKey-us-east-2.pem
 3. SSH this time with,
@@ -55,7 +55,8 @@ connections for SSH (port 2200), HTTP (port 80), and NTP (port 123).
 1. $ sudo ufw allow 2200/tcp.
 2. $ sudo ufw allow 80/tcp.
 3. $ sudo ufw allow 123/udp.
-4. $ sudo ufw enable
+4. $ sudo ufw deny 22
+5. $ sudo ufw enable
 ```
 ##### Give Grader access to the server
   1. Create user grader.
@@ -263,3 +264,5 @@ https://github.com/mulligan121/Udacity-Linux-Configuration/tree/1b7e0475723e8248
 https://github.com/callforsky/udacity-linux-configuration
 
 https://discussions.udacity.com/
+
+https://whatismyipaddress.com/ip-hostname
