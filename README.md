@@ -32,7 +32,8 @@ with mod_wsgi, PostgreSQL, and Git.
 2. Follow instructions in project to SSH into the server.
 
 ##### Update all currently installed packages.
-**1. $ sudo apt-get update.
+***
+1. $ sudo apt-get update.
 2. $ sudo apt-get upgrade.
 3. Install finger, $ apt-get install finger.***
 
@@ -55,14 +56,14 @@ connections for SSH (port 2200), HTTP (port 80), and NTP (port 123).
 4. $ sudo ufw enable
 
 ##### Give Grader access to the server
-1. Create user grader.
+  1. Create user grader.
 
       **$ sudo adduser grader**
 
   It will ask for password and then a few other fields which you can be left
   blank.
 
-2. Give grader permission to sudo.
+  2. Give grader permission to sudo.
 
         **$ sudo nano /etc/sudoers.d/grader.**
 
@@ -70,30 +71,31 @@ connections for SSH (port 2200), HTTP (port 80), and NTP (port 123).
   grader.
   Type grader ALL=(ALL:ALL) NOPASSWD:ALL
 
-3. Create an SSH key pair for grader using the ssh-keygen tool.
+  3. Create an SSH key pair for grader using the ssh-keygen tool.
 
-  * From a new terminal run the command: **$ ssh-keygen -f ~/.ssh/udacity.rsa**
+    * From a new terminal run the command:
+     **$ ssh-keygen -f ~/.ssh/udacity.rsa**
 
-  * In the same terminal we need to read and copy the public key using
+    * In the same terminal we need to read and copy the public key using
     the command: **$ cat ~/.ssh/udacity.rsa.pub**.
     Copy the key from the terminal.
 
-  * Back in the server terminal locate the folder for the user grader,
-    it should be /home/grader. Run the command **$ cd /home/grader**
-    to move to the folder.
+    * Back in the server terminal locate the folder for the user grader,
+      it should be /home/grader. Run the command **$ cd /home/grader**
+      to move to the folder.
 
-  * Create a directory called .ssh with the command **$ mkdir .ssh**
+   * Create a directory called .ssh with the command **$ mkdir .ssh**
 
-  * Create a file to store the public key with the command
-    **$ touch .ssh/authorized_keys**
+   * Create a file to store the public key with the command
+     **$ touch .ssh/authorized_keys**
 
-  * Edit that file using **$ nano .ssh/authorized_keys**
-    Now paste in the public key
+   * Edit that file using **$ nano .ssh/authorized_keys**
+     Now paste in the public key
 
-    We must change the permissions of the file and its folder by running
-    **$ sudo chmod 700 /home/grader/.ssh**
+     We must change the permissions of the file and its folder by running
+     **$ sudo chmod 700 /home/grader/.ssh**
 
-    ** $ sudo chmod 644 /home/grader/.ssh/authorized_keys**
+     ** $ sudo chmod 644 /home/grader/.ssh/authorized_keys**
 
    * Change the owner of the .ssh directory from root to grader by using the
      command $ sudo chown -R grader:grader /home/grader/.ssh
@@ -113,13 +115,13 @@ connections for SSH (port 2200), HTTP (port 80), and NTP (port 123).
      Also find the line that says Port 22 and change it to Port 2200.
      Lastly change PermitRootLogin to no.
 
-  * Restart ssh again: **$ sudo service ssh restart**
-  * Disconnect from the server.
-  * Connect again with new port.
-  **$ ssh -i ~/.ssh/udacity.rsa grader@18.220.198.31 -p 2200**
+   * Restart ssh again: **$ sudo service ssh restart**
+   * Disconnect from the server.
+   * Connect again with new port.
+     **$ ssh -i ~/.ssh/udacity.rsa grader@18.220.198.31 -p 2200**
 
 
-4. Prepare to deploy your project.
+##### Prepare to deploy your project.
   * Configure time zone to UTC. **$ sudo dpkg-reconfigure tzdata**
   * Install and configure Apache to serve a Python mod_wsgi application.
   **$ sudo apt-get install apache2
@@ -129,7 +131,8 @@ connections for SSH (port 2200), HTTP (port 80), and NTP (port 123).
   Enable mod_wsgi with the command **$ sudo a2enmod wsgi**
   and restart Apache using **$ sudo service apache2 restart.**
 
-5. Install and configure PostgreSQL
+##### Install and configure PostgreSQL
+
 ```
   $ sudo apt-get install libpq-dev python-dev
 
@@ -148,10 +151,10 @@ connections for SSH (port 2200), HTTP (port 80), and NTP (port 123).
         catalog=# \q
         $ exit
 ```
-6. Install git.
+##### Install git.
   **sudo apt-get install git**
 
-7. Clone and setup your Item Catalog project from the Github repository.
+##### Clone and setup your Item Catalog project from the Github repository.
 
     **git clone <repo url>**
 ```
@@ -179,36 +182,37 @@ connections for SSH (port 2200), HTTP (port 80), and NTP (port 123).
 
     from catalog import app as application
     application.secret_key = os.urandom(24)
+
     ```
-8. Rename application.py to catalog.py $ mv application.py catalog.py
-   Provide full path to client_secrets.json where called in application.
+ Rename application.py to catalog.py $ mv application.py catalog.py
+ Provide full path to client_secrets.json where called in application.
 
-9. Edit client_secrets.json to provide the correct IP address.
+ Edit client_secrets.json to provide the correct IP address.
 
-10. Go into console.developers.google.com to add the new urls for redirect.
+ Go into console.developers.google.com to add the new urls for redirect.
 
-11. Edit catalog.py last line app.run(host='18.220.198.31', port=80)
-    to point to your host.
+ Edit catalog.py last line app.run(host='18.220.198.31', port=80)
+ to point to your host.
 
-12. Configure the virtual environment.
-Make sure you are in /var/www/catalog.
-```
-$ sudo pip install virtualenv
-$ sudo virtualenv venv
-$ source venv/bin/activate
-$ sudo chmod -R 777 venv
-```
-Command line will change with (venv) prepended to current command line.
+ Configure the virtual environment.
+ Make sure you are in /var/www/catalog.
+   ```
+  $ sudo pip install virtualenv
+  $ sudo virtualenv venv
+  $ source venv/bin/activate
+  $ sudo chmod -R 777 venv
+  ```
+ Command line will change with (venv) prepended to current command line.
 
-While our virtual environment is activated we need to install all packages
-required for our Flask application.
-```
-$ sudo apt-get install python-pip
-$ sudo pip install flask
-$ sudo pip install httplib2 oauth2client sqlalchemy psycopg2 #etc...
-```
+ While our virtual environment is activated we need to install all packages
+ required for our Flask application.
+  ```
+  $ sudo apt-get install python-pip
+  $ sudo pip install flask
+  $ sudo pip install httplib2 oauth2client sqlalchemy psycopg2 #etc...
+  ```
 
-13. Configure the virtual environment to run the application.
+Configure the virtual environment to run the application.
 
 **$ sudo nano /etc/apache2/sites-available/catalog.conf**
 ```
@@ -239,10 +243,11 @@ Enable to virtual host: **$ sudo a2ensite catalog.conf** and DISABLE the default
 host $ a2dissite 000-default.conf otherwise your site will not load with the
 hostname.
 
-14. In python code change, engine from sqlite://catalog.db to postgresql://catalog:catalog@localhost:5432/catalog
+In python code change, engine from sqlite://catalog.db to postgresql://catalog:catalog@localhost:5432/catalog
 
-15. Create tables and load data from catalog application.
+Create tables and load data from catalog application.
 Run, database_setup.py and add_catalog_items.py
 
-16. Final step is, Restart your apache server **$ sudo service apache2 restart**
-and now your IP address and hostname should both load your application.
+Final step is, Restart your apache server **$ sudo service apache2 restart**
+Go to full url, example:
+http://ec2-18-220-198-31.us-east-2.compute.amazonaws.com
